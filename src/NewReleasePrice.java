@@ -1,4 +1,4 @@
-public class NewReleasePrice extends Price {
+class NewReleasePrice extends Price {
  
      @Override
      public double getCharge(int days) {
