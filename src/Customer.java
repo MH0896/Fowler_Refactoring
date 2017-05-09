@@ -2,6 +2,7 @@ import java.lang.*;
 import java.util.*;
 
 class Customer {
+	
     private String name;
     private Vector rentals = new Vector();
     
