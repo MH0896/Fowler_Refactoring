@@ -2,20 +2,36 @@ public class Movie {
     public static final int CHILDRENS = 2;
     public static final int REGULAR = 0;
     public static final int NEW_RELEASE = 1;
-    private String title;
-    private int priceCode;
     
-    public Movie(String newtitle, int newpriceCode) {
-        title = newtitle;
-        priceCode = newpriceCode;
+    private String title;
+    private Price price;
+    
+    public Movie(String newtitle, int priceCode) {
+        this.title = newtitle;
+        this.setPriceCode(priceCode);
     }
     
     public int getPriceCode() {
-        return priceCode;
+    	return this.price.getPriceCode();
     }
     
-    public void setPriceCode(int arg) {
-        priceCode = arg;
+    public void setPriceCode(int priceCode) {
+    	switch (priceCode) {
+    	 	case REGULAR:
+    	 		this.price = new RegularPrice();
+    	 		break;
+    	 
+    	 	case CHILDRENS:
+    	 		this.price = new ChildrensPrice();
+    	 		break;
+    	 
+    	 	case NEW_RELEASE:
+    	 		this.price = new NewReleasePrice();
+    	 		break;
+    	 
+    	 	default:
+    	 		throw new IllegalArgumentException("Incorrect Price Code");
+    	 }
     }
     
     public String getTitle (){
@@ -23,30 +39,11 @@ public class Movie {
     }
     
     public double getCharge(int days){
-        double res = 0;
-        
-        switch (this.getPriceCode()) {
-        	case Movie.REGULAR:
-        		res += 2;
-        		if (days > 2)
-        			res += (days - 2) * 1.5;
-        		break;
-       
-        	case Movie.NEW_RELEASE:
-        		res += days * 3;
-        		break;
-        
-        	case Movie.CHILDRENS:
-        		res += 1.5;
-        		if (days > 3)
-        			res += (days - 3) * 1.5;
-        		break;
-        }
-        return res;
+        return price.getCharge(days);
     } 
     
     public int getFrequentRenterPoints(int days){
-    	if (this.priceCode == Movie.NEW_RELEASE && days > 1)
+    	if (this.getPriceCode() == Movie.NEW_RELEASE && days > 1)
     		 return 2;
     	else
     		 return 1;
